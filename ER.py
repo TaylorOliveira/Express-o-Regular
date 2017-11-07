@@ -12,6 +12,7 @@ verbos = []
 produtos = []
 total = [];
 nomes_dinamico = []
+lista_comprados = []
 dic_nome = {}
 dic_acao = {}
 dic_produto = {}
@@ -105,15 +106,26 @@ def cliente_max_min():
             tupla_cliente_menor = e
     return tupla_cliente_maior, tupla_cliente_menor
 
-def quantidade_comprar():
-    lista = []
+def total_comprados():
+    total = 0
+    for l in lista_comprados:
+        quant1 = 0
+        soma1 = 0
+        for p in precos.items():
+            if l[2]==p[0]:
+                quant1+=1
+                soma1+=p[1]
+        total += quant1*soma1
+    return total
+
+def quantidade_comprar():    
     lista_nomes = []
     dic_n = {}
-
     for comprar in total:
         if comprar[1] == 'comprar':
-            lista.append(comprar)
-    for item in lista:
+            lista_comprados.append(comprar)
+
+    for item in lista_comprados:
         lista_nomes.append(item[0])     
     for nome in nomes_dinamico:        
         dic_n[nome] = lista_nomes.count(nome)
@@ -128,11 +140,8 @@ def quantidade_comprar():
             tupla_compra_maior = e
         if int(e[1]) <= menor:
             menor = int(e[1])
-            tupla_compra_menor = e 
-
+            tupla_compra_menor = e
     return tupla_compra_maior, tupla_compra_menor
-
-
 
 print("Quantidade de interações por cliente:",cont_nomes())
 print("Quantidade de solicitações por ação:",cont_acoes())
@@ -140,4 +149,5 @@ print("Quantidade total de solicitações por produto:",cont_prod())
 print("Ação com a maior e a menor quantidade de solicitação envolvida:",acoes_max_min())
 print("Produto com a maior e a menor quantidade de solicitações envolvidas:",produto_max_min())
 print("Cliente com a maior e a menor quantidade de solicitações efetuadas:",cliente_max_min())
-print("Cliente que realizou a maior quantidade de solicitação (comprar):",quantidade_comprar())
+print("Cliente que realizou a maior e a menor quantidade de solicitação (comprar):",quantidade_comprar())
+total_comprados()
